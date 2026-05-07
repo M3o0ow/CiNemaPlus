@@ -1,24 +1,24 @@
-﻿namespace CiNemaPlus
+﻿using CiNemaPlus.Models;
+using CiNemaPlus.Services;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+namespace CiNemaPlus
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        private readonly MoviesApiService moviesApiService;
 
-        public MainPage()
+        public MainPage(MoviesApiService mas)
         {
             InitializeComponent();
+            moviesApiService = mas;
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            base.OnAppearing();
+            var (movies, fallback) = await moviesApiService.GetData();
+            MoviesCollection.ItemsSource = movies;
         }
     }
 }
