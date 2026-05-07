@@ -18,7 +18,8 @@ namespace CiNemaPlus
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-
+            builder.Services.AddTransient<MovieViewModel>();
+            builder.Services.AddTransient<MainPage>();
             return builder.Build();
         }
     }

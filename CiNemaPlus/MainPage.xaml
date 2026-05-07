@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CiNemaPlus.MainPage">
+            <!--xmlns:viewmodel="clr-namespace:CiNemaPlus.ViewModels"-->
+            <!--x:DataType="viewmodel:MovieViewModel"-->
 
     <ScrollView>
         <VerticalStackLayout
@@ -12,6 +14,12 @@
                 HeightRequest="185"
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+
+            <!-- BANDEAU HORS DONNEES
+            <Label Text="📴 Hors ligne — données locales"
+            IsVisible="{Binding EstFallback}"
+            BackgroundColor="#FFF3CD" TextColor="#856404"
+            HorizontalTextAlignment="Center" Padding="8" />-->
 
             <Label
                 Text="Hello, World!"
