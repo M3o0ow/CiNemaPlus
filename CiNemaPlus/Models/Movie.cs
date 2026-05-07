@@ -37,5 +37,7 @@ namespace CiNemaPlus.Models
         public double Vote_average {get; set; }
         
         public int Vote_count { get; set; }
+
+        public string FullPosterUrl => $"https://image.tmdb.org/t/p/w500{Poster_path}";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CiNemaPlus.Services;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
 namespace CiNemaPlus
@@ -19,6 +20,7 @@ namespace CiNemaPlus
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.UseMauiCommunityToolkit();
             builder.Services.AddTransient<MovieViewModel>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddHttpClient<MoviesApiService>(c => 
