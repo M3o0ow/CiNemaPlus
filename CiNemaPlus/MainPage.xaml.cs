@@ -1,4 +1,8 @@
-﻿namespace CiNemaPlus
+﻿using CiNemaPlus.Models;
+using CiNemaPlus.Services;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+namespace CiNemaPlus
 {
     public partial class MainPage : ContentPage
     {
@@ -10,9 +14,12 @@
             _vm = vm;
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        protected override async void OnAppearing()
         {
             //Remove later
+            base.OnAppearing();
+            var (movies, fallback) = await moviesApiService.GetData();
+            MoviesCollection.ItemsSource = movies;
         }
     }
 }

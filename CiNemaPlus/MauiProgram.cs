@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CiNemaPlus.Services;
+using Microsoft.Extensions.Logging;
 
 namespace CiNemaPlus
 {
@@ -20,6 +21,13 @@ namespace CiNemaPlus
 #endif
             builder.Services.AddTransient<MovieViewModel>();
             builder.Services.AddTransient<MainPage>();
+            builder.Services.AddHttpClient<MoviesApiService>(c => 
+            {
+                c.BaseAddress = new Uri(Constants.BaseUrl);
+
+                c.Timeout = TimeSpan.FromSeconds(15);
+            });
+
             return builder.Build();
         }
     }
