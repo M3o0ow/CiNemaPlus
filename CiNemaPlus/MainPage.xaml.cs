@@ -6,16 +6,17 @@ namespace CiNemaPlus
 {
     public partial class MainPage : ContentPage
     {
-        private readonly MoviesApiService moviesApiService;
+        MovieViewModel _vm;
 
-        public MainPage(MoviesApiService mas)
+        public MainPage(MovieViewModel vm   )
         {
             InitializeComponent();
-            moviesApiService = mas;
+            _vm = vm;
         }
 
         protected override async void OnAppearing()
         {
+            //Remove later
             base.OnAppearing();
             var (movies, fallback) = await moviesApiService.GetData();
             MoviesCollection.ItemsSource = movies;
