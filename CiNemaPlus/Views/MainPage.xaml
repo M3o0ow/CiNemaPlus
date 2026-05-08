@@ -9,15 +9,16 @@
     <Shell.TitleView>
         <Label Text="Movies" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
     </Shell.TitleView>
-    <!--<RefreshView>-->
+    <RefreshView IsRefreshing="{Binding EstEnChargement}">
         <Grid RowDefinitions="Auto, Auto, *" Padding="20" RowSpacing="10">
         <!-- Bar de recherche-->
             <Border Grid.Row="0" BackgroundColor="#F1F3F4" StrokeShape="RoundRectangle 15" Padding="5">
-                <SearchBar x:Name="SearchBar"
+            <SearchBar x:Name="SearchBar"
                 Placeholder="Rechercher dans les articles..." 
                    BackgroundColor="#F1F3F4"
-                   TextColor="Black">
-                </SearchBar>
+                   TextColor="Black"
+                   TextChanged="OnSearchTextChanged">
+            </SearchBar>
             </Border>
 
             <!-- BANDEAU HORS DONNEES-->
@@ -31,7 +32,7 @@
                 IsVisible="{Binding EstEnChargement}"
                 Color="#1E88E5"
                 HorizontalOptions="Center" />
-
+        
             <CollectionView x:Name="MoviesCollection"
                             ItemsSource="{Binding Movies}"
                             Grid.Row="3">
@@ -104,6 +105,7 @@
                 </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </Grid>
-    <!--</RefreshView>-->
+
+    </Grid>
+    </RefreshView>
 </ContentPage>

@@ -23,6 +23,7 @@ namespace CiNemaPlus
         [ObservableProperty]
         private bool _estFallback;
 
+        private List<Movie> _allMovies = new();
 
         [ObservableProperty]
         private ObservableCollection<Movie> _movies = new();
@@ -38,10 +39,24 @@ namespace CiNemaPlus
             category = category.ToLower();
             EstEnChargement = true;
             var (movies, fallback) = await _moviesApiService.GetData();
-            //_allMovies = movies;
+            _allMovies = movies;
             Movies = new ObservableCollection<Movie>(movies);
             EstFallback = fallback;
             EstEnChargement = false;
+        }
+
+        public async Task FiltrerLocalement(string search)
+        {
+            await ChargerDonnees();
+            if (string.IsNullOrWhiteSpace(search))
+            {
+                Movies = new(_allMovies);
+                return;
+            }
+            Movies = new(_allMovies.Where(a =>
+            a.Title.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+            (a.Overview?.Contains(search, StringComparison.OrdinalIgnoreCase) ??
+            false)));
         }
     }
 }
