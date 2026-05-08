@@ -34,7 +34,9 @@
 
             <CollectionView x:Name="MoviesCollection"
                             ItemsSource="{Binding Movies}"
-                            Grid.Row="3">
+                            Grid.Row="3"
+                            SelectionChanged="OnSelectionChanged"
+                            SelectionMode="Single">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
                 </CollectionView.ItemsLayout>

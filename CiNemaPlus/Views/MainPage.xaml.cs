@@ -21,5 +21,15 @@ namespace CiNemaPlus
             base.OnAppearing();
             await _vm.ChargerDonnees();
         }
+
+        //Navigation vers les détails du film sélectioner
+        private async void OnSelectionChanged(object s, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.FirstOrDefault() is Movie m)
+            {
+                await Shell.Current.GoToAsync("detail", new Dictionary<string, object> { { "Movie", m } });
+                MoviesCollection.SelectedItem = null;
+            }
+        }
     }
 }
