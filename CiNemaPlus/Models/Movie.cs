@@ -24,6 +24,18 @@ namespace CiNemaPlus.Models
 
         public string Overview {  get; set; } = string.Empty;
 
+        public string ShortOverview
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Overview) || Overview.Length <= 100)
+                {
+                    return Overview;
+                }
+                return Overview.Substring(0, 100) + "...";
+            }
+        }
+
         public double Popularity { get; set; }
 
         public string Poster_path {get; set; } = string.Empty;
