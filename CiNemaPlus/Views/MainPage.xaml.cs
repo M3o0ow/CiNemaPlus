@@ -33,5 +33,8 @@ namespace CiNemaPlus
                 MoviesCollection.SelectedItem = null;
             }
         }
+
+        private async void OnRefresh(object s, EventArgs e)
+            => await _vm.ChargerDonnees();
     }
 }
