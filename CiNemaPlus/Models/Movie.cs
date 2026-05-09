@@ -39,5 +39,49 @@ namespace CiNemaPlus.Models
         public int Vote_count { get; set; }
 
         public string FullPosterUrl => $"https://image.tmdb.org/t/p/w500{Poster_path}";
+
+        public Credits Credits { get; set; } = new();
+
+        public Videos Videos { get; set; } = new();
+    }
+
+    public class Credits { public List<Cast> Cast { get; set; } = new();}
+
+    public class Cast
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Profile_path { get; set; } = string.Empty;
+
+        public string Character { get; set; } = string.Empty;
+
+        public string FullProfileUrl => !string.IsNullOrEmpty(Profile_path) 
+            ? $"https://image.tmdb.org/t/p/w185{Profile_path}" 
+            : $"";
+    }
+
+    public class Videos() {
+        public List<Results> Results { get; set; } = new();
+
+        public string FullYoutubeEmbedLink => YoutubeEmbedLink();
+
+        public string YoutubeEmbedLink()
+        {
+            var video = Results?.FirstOrDefault(r => r.Name == "Official Trailer")
+                 ?? Results?.FirstOrDefault(r => r.Type == "Trailer")
+                 ?? Results?.FirstOrDefault();
+
+            return video != null
+            ? $"https://www.youtube.com/watch?v={video.Key}"
+            : string.Empty;
+        }
+    }
+
+    public class Results()
+    {
+        public string Key { get; set; } = string.Empty;
+
+        public string Type { get; set; } = string.Empty;
+
+        public string Name { get; set; } = string.Empty;
     }
 }
