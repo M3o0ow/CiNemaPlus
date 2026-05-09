@@ -22,6 +22,7 @@ namespace CiNemaPlus
     		builder.Logging.AddDebug();
 #endif
             builder.UseMauiCommunityToolkit();
+            builder.Services.AddSingleton<MovieDatabase>();
             builder.Services.AddTransient<MovieViewModel>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<DetailPage>();
