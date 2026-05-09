@@ -71,7 +71,7 @@ namespace CiNemaPlus.Models
                  ?? Results?.FirstOrDefault();
 
             return video != null
-            ? $"https://www.youtube-nocookie.com/embed/{video.Key}?rel=0"
+            ? $"https://www.youtube.com/watch?v={video.Key}"
             : string.Empty;
         }
     }

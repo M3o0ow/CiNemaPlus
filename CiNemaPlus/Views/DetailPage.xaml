@@ -3,14 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="CiNemaPlus.Views.DetailPage"
-             Title="DetailPage">
+             Title="DetailPage"
+             x:Name="Details">
 
     <Shell.TitleView>
         <Label Text="Details" FontSize="20" VerticalOptions="Center"/>
     </Shell.TitleView>
 
     <ScrollView>
-        <Grid RowDefinitions="350, Auto, Auto, Auto, Auto, Auto, Auto, *, Auto, Auto" Padding="10" RowSpacing="10">
+        <Grid RowDefinitions="350, Auto, Auto, Auto, Auto, Auto, Auto, *, Auto, Auto" Padding="10" RowSpacing="10" >
             <Border Grid.Row="0" StrokeShape="RoundRectangle 20 20 0 0" StrokeThickness="0">
                 <Image Source="{Binding FullPosterUrl}" Aspect="Fill"/>
             </Border>
@@ -50,7 +51,7 @@
                 <BoxView HeightRequest="1" HorizontalOptions="Fill" BackgroundColor="Black" />
             </VerticalStackLayout>
 
-            <CollectionView Grid.Row="7" ItemsSource="{Binding Credits.Cast}" HeightRequest="150">
+            <CollectionView Grid.Row="7" ItemsSource="{Binding Credits.Cast}" HeightRequest="165">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"/>
                 </CollectionView.ItemsLayout>
@@ -58,13 +59,14 @@
                     <DataTemplate>
                         <Grid RowDefinitions="Auto, Auto, Auto">
                             <Border Grid.Row="0"  StrokeShape="RoundRectangle 10 10 0 0"
-                                    StrokeThickness="0" WidthRequest="110" HeightRequest="125">
+                                    StrokeThickness="0" WidthRequest="110" HeightRequest="125"
+                                    BackgroundColor="LightGray">
                                 <Image 
                                    Source="{Binding FullProfileUrl}" 
                                    Aspect="Fill"/>
                             </Border>
-                            <Label Grid.Row="1" Text="{Binding Name}" FontAttributes="Bold" FontSize="8"/>
-                            <Label Grid.Row="2" Text="{Binding Character}" FontSize="7"/>
+                            <Label Grid.Row="1" Text="{Binding Name}" FontAttributes="Bold" FontSize="10"/>
+                            <Label Grid.Row="2" Text="{Binding Character}" FontSize="9"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -72,44 +74,38 @@
             
             <!-- Video Section -->
             <VerticalStackLayout Grid.Row="8">
-                <Label Text="Video" FontAttributes="Bold" FontSize="16"/>
+                <Label Text="Video(Trailer)" FontAttributes="Bold" FontSize="16"/>
                 <BoxView HeightRequest="1" HorizontalOptions="Fill" BackgroundColor="Black" />
             </VerticalStackLayout>
 
-            <Border Grid.Row="9" StrokeShape="RoundRectangle 15">
-                <WebView Source="{Binding Videos.FullYoutubeEmbedLink}"
-                HeightRequest="300"
-                WidthRequest="400"
-                HorizontalOptions="Center" />
-            </Border>
+            <HorizontalStackLayout Grid.Row="9" HorizontalOptions="Center" Spacing="15" Margin="0,10">
 
-            <!--<HorizontalStackLayout Grid.Row="3" HorizontalOptions="Start" Spacing="5">
-                    <Image Source="people.png" HeightRequest="14" WidthRequest="14">
-                        <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="Black" />
-                        </Image.Behaviors>
-                    </Image>
-                    <Label Text="{Binding Popularity, StringFormat='{0:F0}'}"/>
-                </HorizontalStackLayout>
+                <!-- Watch Button: Primary Action -->
+                <Button Text="Watch"
+                    Clicked="OpenTrailer"
+                    ImageSource="play_icon.png"
+                    ContentLayout="Left, 10"
+                    BackgroundColor="#E50914" 
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="25"
+                    WidthRequest="140"
+                    HeightRequest="50"
+                    Visual="Material"/>
 
-                <HorizontalStackLayout Grid.Row="4" HorizontalOptions="Start" Spacing="5">
-                    <Image Source="half_star.png" HeightRequest="14" WidthRequest="14">
-                        <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="Orange" />
-                        </Image.Behaviors>
-                    </Image>
-                    <Label Text="{Binding Vote_count}"/>
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout Grid.Row="5" HorizontalOptions="Start" Spacing="5">
-                    <Image Source="star.png" HeightRequest="14" WidthRequest="14">
-                        <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="Orange" />
-                        </Image.Behaviors>
-                    </Image>
-                    <Label Text="{Binding Vote_average, StringFormat='{0:F1}'}"/>
-                </HorizontalStackLayout>-->
-
+                <!-- Share Button: Secondary Action -->
+                <Button Text="Share"
+                    Clicked="OnShare"
+                    ImageSource="share_icon.png"
+                    ContentLayout="Left, 10"
+                    BackgroundColor="Transparent"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    TextColor="Black"
+                    CornerRadius="25"
+                    WidthRequest="140"
+                    HeightRequest="50"/>
+            </HorizontalStackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>

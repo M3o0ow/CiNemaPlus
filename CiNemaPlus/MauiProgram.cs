@@ -29,7 +29,7 @@ namespace CiNemaPlus
             {
                 c.BaseAddress = new Uri(Constants.BaseUrl);
 
-                c.Timeout = TimeSpan.FromSeconds(15);
+                //c.Timeout = TimeSpan.FromSeconds(5);
             });
 
             return builder.Build();

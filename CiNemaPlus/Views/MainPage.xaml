@@ -46,7 +46,7 @@
                           ColumnDefinitions="100, *" 
                           ColumnSpacing="10" 
                           Padding="5">
-                        
+
                         <Border Grid.Column="0" Grid.RowSpan="4" StrokeShape="RoundRectangle 20 0 20 0"
                                 StrokeThickness="0">
                             <Image 
