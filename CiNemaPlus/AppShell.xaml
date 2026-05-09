@@ -5,11 +5,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:CiNemaPlus.Views"
     xmlns:local="clr-namespace:CiNemaPlus"
-    Title="CiNemaPlus">
+    Title="CiNemaPlus"
+    Shell.TabBarForegroundColor="OrangeRed">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Icon="fire.png">
+            <ShellContent ContentTemplate="{DataTemplate views:MaCollectionPage}" />
+        </Tab>
+        <Tab Icon="magnifying.png">
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+        </Tab>
+        <Tab Icon="folder.png">
+            <ShellContent ContentTemplate="{DataTemplate views:MaCollectionPage}" />
+        </Tab>
+    </TabBar>
 
 </Shell>
