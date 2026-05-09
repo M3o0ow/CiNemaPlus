@@ -29,7 +29,7 @@
 
             <CollectionView x:Name="MoviesCollection"
                             ItemsSource="{Binding Movies}"
-                            Grid.Row="3"
+                            Grid.Row="2"
                             SelectionChanged="OnSelectionChanged"
                             SelectionMode="Single">
                 <CollectionView.ItemsLayout>
@@ -37,12 +37,12 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Movie">
-                        <Grid RowDefinitions="20,92,18, Auto" 
-                          ColumnDefinitions="100, *, Auto" 
+                        <Grid RowDefinitions="20,25,Auto,Auto,Auto" 
+                          ColumnDefinitions="100, *" 
                           ColumnSpacing="5">
                             
                             <!-- Image du film -->
-                            <Border Grid.Column="0" Grid.RowSpan="4" StrokeShape="RoundRectangle 20 0 20 0"
+                            <Border Grid.Column="0" Grid.RowSpan="5" StrokeShape="RoundRectangle 20 0 20 0"
                                 StrokeThickness="0">
                                 <Image 
                                Source="{Binding FullPosterUrl}" 
@@ -64,9 +64,14 @@
                                 </Image>
                                 <Label Text="{Binding Original_language}" FontSize="12"/>
                             </HorizontalStackLayout>
+                            
+                            <!-- Partie de la Description -->
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding ShortOverview}" 
+                                   HeightRequest="60" VerticalOptions="Start"/>
 
                             <!-- Popularité -->
-                            <HorizontalStackLayout Grid.Row="2" Grid.Column="1" Spacing="2" HorizontalOptions="End">
+                            <HorizontalStackLayout Grid.Row="3" Grid.Column="1" Spacing="2" HorizontalOptions="End"
+                                                   HeightRequest="18">
                                 <Image Source="people.png" HeightRequest="14" WidthRequest="14">
                                     <Image.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="Black" />
@@ -76,7 +81,7 @@
                             </HorizontalStackLayout>
 
                             <!-- Note -->
-                            <HorizontalStackLayout Grid.Column="1" Grid.Row="3" Spacing="2" HorizontalOptions="End">
+                            <HorizontalStackLayout Grid.Column="1" Grid.Row="4" Spacing="2" HorizontalOptions="End" >
                                 <Image Source="star.png" HeightRequest="14" WidthRequest="14">
                                     <Image.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="Orange" />
@@ -86,7 +91,7 @@
                             </HorizontalStackLayout>
                             
                             <!-- Date de sortie -->
-                            <HorizontalStackLayout Grid.Column="1" Grid.Row="3" Spacing="2" HorizontalOptions="Start">
+                            <HorizontalStackLayout Grid.Column="1" Grid.Row="4" Spacing="2" HorizontalOptions="Start">
                                 <Image Source="calendar.png" HeightRequest="14" WidthRequest="14">
                                     <Image.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="Black" />
