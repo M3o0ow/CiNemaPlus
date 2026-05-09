@@ -1,4 +1,5 @@
 ﻿using CiNemaPlus.Services;
+using CiNemaPlus.Views;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
@@ -24,11 +25,12 @@ namespace CiNemaPlus
             builder.Services.AddSingleton<MovieDatabase>();
             builder.Services.AddTransient<MovieViewModel>();
             builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<DetailPage>();
             builder.Services.AddHttpClient<MoviesApiService>(c => 
             {
                 c.BaseAddress = new Uri(Constants.BaseUrl);
 
-                c.Timeout = TimeSpan.FromSeconds(15);
+                //c.Timeout = TimeSpan.FromSeconds(5);
             });
 
             return builder.Build();

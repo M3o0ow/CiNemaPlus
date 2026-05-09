@@ -27,8 +27,15 @@ namespace CiNemaPlus.Services
             }
             catch (Exception)
             {
-                return (GetMoviesLocaux(), false);
+                return (GetMoviesLocaux(), true);
             }
+        }
+
+        public async Task<Movie> GetFullMovieDetails(int movieId)
+        {
+            var response = await _httpClient.GetFromJsonAsync<Movie>($"movie/{movieId}?api_key={Constants.MoviesApiKey}&append_to_response=videos,credits");
+
+            return response;
         }
 
         private List<Movie> GetMoviesLocaux() => new()

@@ -16,10 +16,22 @@ namespace CiNemaPlus
             this.moviesApiService = moviesApiService;
         }
 
+        private async void OnSearchTextChanged(object s, TextChangedEventArgs e) => await _vm.FiltrerLocalement(e.NewTextValue);
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
             await _vm.ChargerDonnees();
+        }
+
+        //Navigation vers les détails du film sélectioner
+        private async void OnSelectionChanged(object s, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.FirstOrDefault() is Movie m)
+            {
+                await Shell.Current.GoToAsync("detail", new Dictionary<string, object> { { "Movie", m } });
+                MoviesCollection.SelectedItem = null;
+            }
         }
     }
 }

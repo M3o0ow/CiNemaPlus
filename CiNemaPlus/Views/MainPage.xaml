@@ -9,15 +9,16 @@
     <Shell.TitleView>
         <Label Text="Movies" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
     </Shell.TitleView>
-    <!--<RefreshView>-->
+    <RefreshView IsRefreshing="{Binding EstEnChargement}">
         <Grid RowDefinitions="Auto, Auto, *" Padding="20" RowSpacing="10">
         <!-- Bar de recherche-->
             <Border Grid.Row="0" BackgroundColor="#F1F3F4" StrokeShape="RoundRectangle 15" Padding="5">
-                <SearchBar x:Name="SearchBar"
+            <SearchBar x:Name="SearchBar"
                 Placeholder="Rechercher dans les articles..." 
                    BackgroundColor="#F1F3F4"
-                   TextColor="Black">
-                </SearchBar>
+                   TextColor="Black"
+                   TextChanged="OnSearchTextChanged">
+            </SearchBar>
             </Border>
 
             <!-- BANDEAU HORS DONNEES-->
@@ -31,10 +32,12 @@
                 IsVisible="{Binding EstEnChargement}"
                 Color="#1E88E5"
                 HorizontalOptions="Center" />
-
+        
             <CollectionView x:Name="MoviesCollection"
                             ItemsSource="{Binding Movies}"
-                            Grid.Row="3">
+                            Grid.Row="3"
+                            SelectionChanged="OnSelectionChanged"
+                            SelectionMode="Single">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
                 </CollectionView.ItemsLayout>
@@ -44,7 +47,7 @@
                           ColumnDefinitions="100, *" 
                           ColumnSpacing="10" 
                           Padding="5">
-                        
+
                         <Border Grid.Column="0" Grid.RowSpan="4" StrokeShape="RoundRectangle 20 0 20 0"
                                 StrokeThickness="0">
                             <Image 
@@ -104,6 +107,7 @@
                 </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </Grid>
-    <!--</RefreshView>-->
+
+    </Grid>
+    </RefreshView>
 </ContentPage>
