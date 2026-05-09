@@ -15,6 +15,7 @@ namespace CiNemaPlus
 {
     public partial class MovieViewModel : ObservableObject
     {
+        MovieDatabase database;
         readonly MoviesApiService _moviesApiService;
 
         [ObservableProperty]
@@ -27,9 +28,13 @@ namespace CiNemaPlus
         [ObservableProperty]
         private ObservableCollection<Movie> _movies = new();
 
-        public MovieViewModel(MoviesApiService moviesApiService)
+        [ObservableProperty]
+        private ObservableCollection<Movie> _favorites = new();
+
+        public MovieViewModel(MoviesApiService moviesApiService, MovieDatabase database)
         {
             this._moviesApiService = moviesApiService;
+            this.database = database;
         }
 
         [RelayCommand]
@@ -43,5 +48,26 @@ namespace CiNemaPlus
             EstFallback = fallback;
             EstEnChargement = false;
         }
+
+        [RelayCommand]
+        public async Task RefreshFavorites()
+        {
+            Favorites = new ObservableCollection<Movie>(await database.GetItemsAsync());
+        }
+
+        [RelayCommand]
+        public async Task AjouterFavorite(Movie movie)
+        {
+            await database.SaveItemAsync(movie);
+            await RefreshFavorites();
+        }
+
+        [RelayCommand]
+        public async Task SupprimerFavorite(Movie movie)
+        {
+            await database.DeleteItemAsync(movie);
+            await RefreshFavorites();
+        }
+
     }
 }
