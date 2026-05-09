@@ -16,6 +16,8 @@ namespace CiNemaPlus
             this.moviesApiService = moviesApiService;
         }
 
+        private async void OnSearchTextChanged(object s, TextChangedEventArgs e) => await _vm.FiltrerLocalement(e.NewTextValue);
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
