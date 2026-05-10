@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="CiNemaPlus.Views.DetailPage"
+             xmlns:vm="cinemaPlus"
              Title="DetailPage"
              x:Name="Details">
 
@@ -96,6 +97,19 @@
                 <!-- Share Button: Secondary Action -->
                 <Button Text="Share"
                     Clicked="OnShare"
+                    ImageSource="share_icon.png"
+                    ContentLayout="Left, 10"
+                    BackgroundColor="Transparent"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    TextColor="Black"
+                    CornerRadius="25"
+                    WidthRequest="140"
+                    HeightRequest="50"/>
+
+                <!-- Favorite button: Tertiary Action -->
+                <Button Text="{Binding Source={x:Reference Details}, Path=FavoriteText}"
+                    Clicked="OnFavorite"
                     ImageSource="share_icon.png"
                     ContentLayout="Left, 10"
                     BackgroundColor="Transparent"

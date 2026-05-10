@@ -36,8 +36,20 @@ namespace CiNemaPlus.Services
         public async Task<int> SaveItemAsync(Movie movie)
         {
             await Init();
-            if (movie.Id != 0)
-                return await database.UpdateAsync(movie);
+
+            bool contains = false;
+            List<Movie> favorites = await GetItemsAsync();
+
+            foreach (Movie m in favorites)
+            {
+                if (m.Id == movie.Id)
+                {
+                    contains = true;
+                }
+            }
+
+            if (contains)
+                return await DeleteItemAsync(movie);
             else
                 return await database.InsertAsync(movie);
         }

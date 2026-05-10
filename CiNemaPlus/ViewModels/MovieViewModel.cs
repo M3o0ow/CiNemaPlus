@@ -83,5 +83,18 @@ namespace CiNemaPlus
             (a.Overview?.Contains(search, StringComparison.OrdinalIgnoreCase) ??
             false)));
         }
+
+        public bool IsMovieFavorited(Movie movie)
+        {
+            foreach (Movie m in Favorites)
+            {
+                if (m.Id ==  movie.Id)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

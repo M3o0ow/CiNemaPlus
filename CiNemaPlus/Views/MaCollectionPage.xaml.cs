@@ -9,4 +9,11 @@ public partial class MaCollectionPage : ContentPage
 		InitializeComponent();
 		BindingContext = _vm = vm;
 	}
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _vm.ChargerDonnees();
+		await _vm.RefreshFavorites();
+    }
 }
