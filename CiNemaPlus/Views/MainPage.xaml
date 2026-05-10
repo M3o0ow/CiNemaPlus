@@ -9,100 +9,104 @@
     <Shell.TitleView>
         <Label Text="Movies" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
     </Shell.TitleView>
-    <RefreshView IsRefreshing="{Binding EstEnChargement}" Refreshing="OnRefresh" RefreshColor="DodgerBlue">
-        <Grid RowDefinitions="Auto, Auto, *" Padding="20" RowSpacing="10">
+    <Grid RowDefinitions="Auto, Auto, *" Padding="20" RowSpacing="10">
         <!-- Bar de recherche-->
-            <Border Grid.Row="0" BackgroundColor="#F1F3F4" StrokeShape="RoundRectangle 15" Padding="5">
+        <Border Grid.Row="0" BackgroundColor="#F1F3F4" StrokeShape="RoundRectangle 15" Padding="5">
             <SearchBar x:Name="SearchBar"
                 Placeholder="Rechercher dans les articles..." 
                    BackgroundColor="#F1F3F4"
                    TextColor="Black"
                    TextChanged="OnSearchTextChanged">
             </SearchBar>
-            </Border>
+        </Border>
 
-            <!-- BANDEAU HORS DONNEES-->
-            <Label Grid.Row="1" Text="📴 Hors ligne — données locales"
+        <!-- BANDEAU HORS DONNEES-->
+        <Label Grid.Row="1" Text="📴 Hors ligne — Recherche non fonctionnel"
                     IsVisible="{Binding EstFallback}"
                     BackgroundColor="#FFF3CD" TextColor="#856404"
                     HorizontalTextAlignment="Center" Padding="8" />
+        
+        <!-- Recommended -->
+        <Label Grid.Row="1" Text="Recommended movies" FontAttributes="Bold"
+            IsVisible="{Binding IsEmptySearch}"
+            TextColor="Black"
+            HorizontalTextAlignment="Start" Padding="8" />
 
-            <CollectionView x:Name="MoviesCollection"
-                            ItemsSource="{Binding Movies}"
+        <CollectionView x:Name="MoviesCollection"
+                            ItemsSource="{Binding SearchedMovies}"
                             Grid.Row="2"
-                            SelectionChanged="OnSelectionChanged"
+                            SelectedItem="{Binding SelectedMovie}"
                             SelectionMode="Single">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Movie">
-                        <Grid RowDefinitions="20,25,Auto,Auto,Auto" 
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Movie">
+                    <Grid RowDefinitions="20,25,Auto,Auto,Auto" 
                           ColumnDefinitions="100, *" 
                           ColumnSpacing="5">
-                            
-                            <!-- Image du film -->
-                            <Border Grid.Column="0" Grid.RowSpan="5" StrokeShape="RoundRectangle 20 0 20 0"
+
+                        <!-- Image du film -->
+                        <Border Grid.Column="0" Grid.RowSpan="5" StrokeShape="RoundRectangle 20 0 20 0"
                                 StrokeThickness="0">
-                                <Image 
+                            <Image 
                                Source="{Binding FullPosterUrl}" 
                                Aspect="AspectFill"/>
-                            </Border>
+                        </Border>
 
-                            <!-- Titre du film-->
-                            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                        <!-- Titre du film-->
+                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
                                 Text="{Binding Title}" 
                                 FontSize="14" 
                                 FontAttributes="Bold"/>
 
-                            <!-- Langue -->
-                            <HorizontalStackLayout Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Spacing="2">
-                                <Image Source="language.png" HeightRequest="14" WidthRequest="14" VerticalOptions="Start">
-                                    <Image.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="Black" />
-                                    </Image.Behaviors>
-                                </Image>
-                                <Label Text="{Binding Original_language}" FontSize="12"/>
-                            </HorizontalStackLayout>
-                            
-                            <!-- Partie de la Description -->
-                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding ShortOverview}" 
+                        <!-- Langue -->
+                        <HorizontalStackLayout Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Spacing="2">
+                            <Image Source="language.png" HeightRequest="14" WidthRequest="14" VerticalOptions="Start">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="Black" />
+                                </Image.Behaviors>
+                            </Image>
+                            <Label Text="{Binding Original_language}" FontSize="12"/>
+                        </HorizontalStackLayout>
+
+                        <!-- Partie de la Description -->
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding ShortOverview}" 
                                    HeightRequest="60" VerticalOptions="Start"/>
 
-                            <!-- Popularité -->
-                            <HorizontalStackLayout Grid.Row="3" Grid.Column="1" Spacing="2" HorizontalOptions="End"
+                        <!-- Popularité -->
+                        <HorizontalStackLayout Grid.Row="3" Grid.Column="1" Spacing="2" HorizontalOptions="End"
                                                    HeightRequest="18">
-                                <Image Source="people.png" HeightRequest="14" WidthRequest="14">
-                                    <Image.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="Black" />
-                                    </Image.Behaviors>
-                                </Image>
-                                <Label Text="{Binding Popularity, StringFormat='{0:F0}'}" FontSize="12"/>
-                            </HorizontalStackLayout>
+                            <Image Source="people.png" HeightRequest="14" WidthRequest="14">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="Black" />
+                                </Image.Behaviors>
+                            </Image>
+                            <Label Text="{Binding Popularity, StringFormat='{0:F0}'}" FontSize="12"/>
+                        </HorizontalStackLayout>
 
-                            <!-- Note -->
-                            <HorizontalStackLayout Grid.Column="1" Grid.Row="4" Spacing="2" HorizontalOptions="End" >
-                                <Image Source="star.png" HeightRequest="14" WidthRequest="14">
-                                    <Image.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="Orange" />
-                                    </Image.Behaviors>
-                                </Image>
-                                <Label Text="{Binding Vote_average, StringFormat='{0:F1}'}" FontSize="12"/>
-                            </HorizontalStackLayout>
-                            
-                            <!-- Date de sortie -->
-                            <HorizontalStackLayout Grid.Column="1" Grid.Row="4" Spacing="2" HorizontalOptions="Start">
-                                <Image Source="calendar.png" HeightRequest="14" WidthRequest="14">
-                                    <Image.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="Black" />
-                                    </Image.Behaviors>
-                                </Image>
-                                <Label Text="{Binding Release_date, StringFormat='{0:F1}'}" FontSize="12"/>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </Grid>
-    </RefreshView>
+                        <!-- Note -->
+                        <HorizontalStackLayout Grid.Column="1" Grid.Row="4" Spacing="2" HorizontalOptions="End" >
+                            <Image Source="star.png" HeightRequest="14" WidthRequest="14">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="Orange" />
+                                </Image.Behaviors>
+                            </Image>
+                            <Label Text="{Binding Vote_average, StringFormat='{0:F1}'}" FontSize="12"/>
+                        </HorizontalStackLayout>
+
+                        <!-- Date de sortie -->
+                        <HorizontalStackLayout Grid.Column="1" Grid.Row="4" Spacing="2" HorizontalOptions="Start">
+                            <Image Source="calendar.png" HeightRequest="14" WidthRequest="14">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="Black" />
+                                </Image.Behaviors>
+                            </Image>
+                            <Label Text="{Binding Release_date, StringFormat='{0:F1}'}" FontSize="12"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>
