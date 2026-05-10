@@ -3,6 +3,7 @@ using CiNemaPlus.Services;
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace CiNemaPlus.Views;
 
@@ -44,6 +45,13 @@ public partial class DetailPage : ContentPage
         this.mas = mas;
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _vm.ChargerDonnees();
+        await _vm.RefreshFavorites();
+    }
+
     private async void OnMovieReceived(int id)
     {
         var fullDetails = await mas.GetFullMovieDetails(id);
@@ -73,16 +81,16 @@ public partial class DetailPage : ContentPage
             await Share.RequestAsync(new ShareTextRequest { Title = m.Title, Uri = m.Videos.FullYoutubeEmbedLink });
     }
 
-    //Favorite
-    public async void OnFavorite(object s, EventArgs e)
+    //Favorite/Unfavorite
+    public async void OnFavoriteAction(object s, EventArgs e)
     {
-        await _vm.AjouterFavorite(Movie);
+        await _vm.ToggleFavorite(Movie);
         RefreshFavoriteText();
     }
 
-    private void RefreshFavoriteText()
+    private async void RefreshFavoriteText()
     {
-        if (_vm.IsMovieFavorited(Movie))
+        if (await _vm.IsMovieFavorited(Movie))
         {
             FavoriteText = "Unfavorite";
             return;

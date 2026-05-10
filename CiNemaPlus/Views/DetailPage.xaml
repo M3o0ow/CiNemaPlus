@@ -109,7 +109,7 @@
 
                 <!-- Favorite button: Tertiary Action -->
                 <Button Text="{Binding Source={x:Reference Details}, Path=FavoriteText}"
-                    Clicked="OnFavorite"
+                    Clicked="OnFavoriteAction"
                     ImageSource="share_icon.png"
                     ContentLayout="Left, 10"
                     BackgroundColor="Transparent"
