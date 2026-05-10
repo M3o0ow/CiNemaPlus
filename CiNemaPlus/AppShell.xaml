@@ -10,7 +10,7 @@
 
     <TabBar>
         <Tab Icon="fire.png">
-            <ShellContent ContentTemplate="{DataTemplate views:MaCollectionPage}" />
+            <ShellContent ContentTemplate="{DataTemplate views:PopularPage}" />
         </Tab>
         <Tab Icon="magnifying.png">
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
