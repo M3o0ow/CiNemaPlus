@@ -17,9 +17,9 @@ namespace CiNemaPlus.Models
         [Ignore]
         public List<int> Genre_ids { get; set; } = new List<int>();
 
-        [PrimaryKey]
         public string GenreDisplay => null;
-
+        
+        [PrimaryKey]
         public int Id { get; set; }
 
         public string Title { get; set; } = string.Empty;
