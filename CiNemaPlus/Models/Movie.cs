@@ -1,4 +1,9 @@
-﻿using SQLite;
+﻿/*
+        Programmeur :   Michael LeBlanc | Samuel Chiasson 
+        Date        :   11 mai 2026 
+        But         :   Movies
+*/
+using SQLite;
 ﻿using CiNemaPlus.Services;
 using System;
 using System.Collections.Generic;
@@ -17,9 +22,9 @@ namespace CiNemaPlus.Models
         [Ignore]
         public List<int> Genre_ids { get; set; } = new List<int>();
 
-        [PrimaryKey]
         public string GenreDisplay => null;
-
+        
+        [PrimaryKey]
         public int Id { get; set; }
 
         public string Title { get; set; } = string.Empty;
