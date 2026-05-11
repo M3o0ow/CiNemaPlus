@@ -101,16 +101,14 @@ namespace CiNemaPlus
 
         public async Task RechercheEnLigne(string search)
         {
-            await ChargerDonnees();
+            await ChargerRecherche(search);
             if (string.IsNullOrWhiteSpace(search))
             {    
                 SearchedMovies = new();
                 return;
             }
             SearchedMovies = new(_allMovies.Where(a =>
-            a.Title.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-            (a.Overview?.Contains(search, StringComparison.OrdinalIgnoreCase) ??
-            false)));
+            a.Title.Contains(search, StringComparison.OrdinalIgnoreCase)));
         }
 
         public async Task<bool> IsMovieFavorited(Movie movie)
