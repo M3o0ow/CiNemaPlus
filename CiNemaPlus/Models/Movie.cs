@@ -1,3 +1,4 @@
+﻿using SQLite;
 ﻿using CiNemaPlus.Services;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,10 @@ namespace CiNemaPlus.Models
 
         public string Backdrop_path { get; set; } = string.Empty;
 
+        [Ignore]
         public List<int> Genre_ids { get; set; } = new List<int>();
 
+        [PrimaryKey]
         public string GenreDisplay => null;
 
         public int Id { get; set; }
@@ -54,9 +57,9 @@ namespace CiNemaPlus.Models
         public int Vote_count { get; set; }
 
         public string FullPosterUrl => $"https://image.tmdb.org/t/p/w500{Poster_path}";
-
+        [Ignore]
         public Credits Credits { get; set; } = new();
-
+        [Ignore]
         public Videos Videos { get; set; } = new();
     }
 

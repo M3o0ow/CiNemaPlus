@@ -1,7 +1,9 @@
 using CiNemaPlus.Models;
 using CiNemaPlus.Services;
 using CommunityToolkit.Mvvm.Input;
+using System.ComponentModel;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace CiNemaPlus.Views;
 
@@ -9,6 +11,7 @@ namespace CiNemaPlus.Views;
 public partial class DetailPage : ContentPage
 {
     readonly MoviesApiService mas;
+    MovieViewModel _vm;
 
     private Movie _movie;
 
@@ -19,13 +22,34 @@ public partial class DetailPage : ContentPage
             _movie = value;
 
             OnMovieReceived(Movie.Id);
+            RefreshFavoriteText();
         } 
+    }
+
+    private string _favoriteText = String.Empty;
+
+    public string FavoriteText
+    {
+        get => _favoriteText;
+        set
+        {
+            _favoriteText = value;
+            OnPropertyChanged(nameof(FavoriteText));
+        }
     }
 
     public DetailPage(MovieViewModel vm, MoviesApiService mas)
     {
         InitializeComponent();
+        BindingContext = _vm = vm;
         this.mas = mas;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _vm.ChargerDonnees();
+        await _vm.RefreshFavorites();
     }
 
     private async void OnMovieReceived(int id)
@@ -55,5 +79,23 @@ public partial class DetailPage : ContentPage
     {
         if (BindingContext is Movie m)
             await Share.RequestAsync(new ShareTextRequest { Title = m.Title, Uri = m.Videos.FullYoutubeEmbedLink });
+    }
+
+    //Favorite/Unfavorite
+    public async void OnFavoriteAction(object s, EventArgs e)
+    {
+        await _vm.ToggleFavorite(Movie);
+        RefreshFavoriteText();
+    }
+
+    private async void RefreshFavoriteText()
+    {
+        if (await _vm.IsMovieFavorited(Movie))
+        {
+            FavoriteText = "Unfavorite";
+            return;
+        }
+
+        FavoriteText = "Favorite";
     }
 }

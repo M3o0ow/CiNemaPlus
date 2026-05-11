@@ -86,7 +86,7 @@ namespace CiNemaPlus
         }
 
         [RelayCommand]
-        public async Task AjouterFavorite(Movie movie)
+        public async Task ToggleFavorite(Movie movie)
         {
             await database.SaveItemAsync(movie);
             await RefreshFavorites();
@@ -111,6 +111,26 @@ namespace CiNemaPlus
             a.Title.Contains(search, StringComparison.OrdinalIgnoreCase) ||
             (a.Overview?.Contains(search, StringComparison.OrdinalIgnoreCase) ??
             false)));
+        }
+
+        public async Task<bool> IsMovieFavorited(Movie movie)
+        {
+            if (await database.GetItemAsync(movie.Id) != null)
+            {
+                return true;
+            }
+
+            return false;
+            
+            //foreach (Movie m in Favorites)
+            //{
+            //    if (m.Id ==  movie.Id)
+            //    {
+            //        return true;
+            //    }
+            //}
+
+            //return false;
         }
     }
 }
