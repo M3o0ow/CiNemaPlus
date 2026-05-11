@@ -57,6 +57,7 @@ namespace CiNemaPlus
             SelectedMovie = null;
         }
 
+        //Pour les populaires
         [RelayCommand]
         public async Task ChargerDonnees()
         {
@@ -68,6 +69,7 @@ namespace CiNemaPlus
             EstEnChargement = false;
         }
 
+        //Pour la recherche en temps réel
         [RelayCommand]
         public async Task ChargerRecherche(string search)
         {
