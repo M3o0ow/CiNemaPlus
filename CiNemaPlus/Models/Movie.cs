@@ -1,4 +1,9 @@
-﻿using SQLite;
+﻿/*
+        Programmeur :   Michael LeBlanc | Samuel Chiasson 
+        Date        :   11 mai 2026 
+        But         :   Movies
+*/
+using SQLite;
 ﻿using CiNemaPlus.Services;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--    Programmeur :   Michael LeBlanc | Samuel Chiasson 
+        Date        :   11 mai 2026 
+        But         :   Movies
+-->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CiNemaPlus.Views.MaCollectionPage"
@@ -8,7 +12,7 @@
              Title="MaCollectionPage">
 
     <Shell.TitleView>
-        <Label Text="Movies" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Label Text="My Collection" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
     </Shell.TitleView>
     <RefreshView IsRefreshing="{Binding EstEnChargement}" Refreshing="OnRefresh" RefreshColor="DodgerBlue">
         <Grid RowDefinitions="Auto, Auto, *" Padding="20" RowSpacing="10">
