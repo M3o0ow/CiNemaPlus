@@ -11,8 +11,13 @@ namespace CiNemaPlus.Services
     public class MoviesApiService
     {
         private readonly HttpClient _httpClient;
+        //private GenresApiResponse _genresApiResponse;
 
-        public MoviesApiService(HttpClient httpClient) { _httpClient = httpClient; }
+        public MoviesApiService(HttpClient httpClient) 
+        { 
+            _httpClient = httpClient;
+            //_genresApiResponse = genresApiResponse;
+        }
 
         public async Task<(List<Movie> movies, bool estFallBack)> GetData()
         {
@@ -31,12 +36,54 @@ namespace CiNemaPlus.Services
             }
         }
 
+        public async Task<(List<Movie> movies, bool estFallBack)> GetSearchedMovie(string searching)
+        {
+            try
+            {
+                MoviesApiResponse response;
+
+                if (!string.IsNullOrWhiteSpace(searching))
+                {
+                    response = await _httpClient.GetFromJsonAsync<MoviesApiResponse>($"search/movie?query={Uri.EscapeDataString(searching)}&api_key={Constants.MoviesApiKey}");
+                }
+                else
+                {
+                    response = await _httpClient.GetFromJsonAsync<MoviesApiResponse>($"discover/movie?api_key={Constants.MoviesApiKey}");
+                }
+
+                if (response?.Movies == null || response.Movies.Count == 0)
+                    return (new(), false);
+                
+                return (response.Movies, false);
+            }
+            catch (Exception)
+            {
+                return (new(), true);
+            }
+        }
+
+
         public async Task<Movie> GetFullMovieDetails(int movieId)
         {
             var response = await _httpClient.GetFromJsonAsync<Movie>($"movie/{movieId}?api_key={Constants.MoviesApiKey}&append_to_response=videos,credits");
 
             return response;
         }
+
+        //public async Task<List<Dictionary<string,object>>> GetGenreList()
+        //{
+        //    try
+        //    {
+        //        var response = await _httpClient.GetFromJsonAsync<GenresApiResponse>($"genre/movie/list?api_key={Constants.MoviesApiKey}");
+
+        //        return response.Genres;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return new List<Dictionary<string, object>>();
+        //    }
+            
+        //}
 
         private List<Movie> GetMoviesLocaux() => new()
         {

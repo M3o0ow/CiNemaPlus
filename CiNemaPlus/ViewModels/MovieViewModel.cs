@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using CiNemaPlus.Models;
 using CiNemaPlus.Services;
+using CiNemaPlus.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -19,12 +20,21 @@ namespace CiNemaPlus
         readonly MoviesApiService _moviesApiService;
 
         [ObservableProperty]
+        private Movie _selectedMovie;
+
+        [ObservableProperty]
         private bool _estEnChargement;
 
         [ObservableProperty]
         private bool _estFallback;
 
+        [ObservableProperty]
+        private bool isEmptySearch;
+
         private List<Movie> _allMovies = new();
+
+        [ObservableProperty]
+        private ObservableCollection<Movie> _searchedMovies = new();
 
         [ObservableProperty]
         private ObservableCollection<Movie> _movies = new();
@@ -36,16 +46,35 @@ namespace CiNemaPlus
         {
             this._moviesApiService = moviesApiService;
             this.database = database;
+            IsEmptySearch = true;
+        }
+
+        partial void OnSelectedMovieChanged(Movie movie)
+        {
+            if (movie == null) return;
+
+            Shell.Current.GoToAsync("detail", new Dictionary<string, object> { { "Movie", movie } });
+            SelectedMovie = null;
         }
 
         [RelayCommand]
-        public async Task ChargerDonnees(string category = "popular")
+        public async Task ChargerDonnees()
         {
-            category = category.ToLower();
             EstEnChargement = true;
             var (movies, fallback) = await _moviesApiService.GetData();
             _allMovies = movies;
             Movies = new ObservableCollection<Movie>(movies);
+            EstFallback = fallback;
+            EstEnChargement = false;
+        }
+
+        [RelayCommand]
+        public async Task ChargerRecherche(string search)
+        {
+            EstEnChargement = true;
+            var (movies, fallback) = await _moviesApiService.GetSearchedMovie(search);
+            _allMovies = movies;
+            SearchedMovies = new ObservableCollection<Movie>(movies);
             EstFallback = fallback;
             EstEnChargement = false;
         }
@@ -70,15 +99,15 @@ namespace CiNemaPlus
             await RefreshFavorites();
         }
 
-        public async Task FiltrerLocalement(string search)
+        public async Task RechercheEnLigne(string search)
         {
             await ChargerDonnees();
             if (string.IsNullOrWhiteSpace(search))
-            {
-                Movies = new(_allMovies);
+            {    
+                SearchedMovies = new();
                 return;
             }
-            Movies = new(_allMovies.Where(a =>
+            SearchedMovies = new(_allMovies.Where(a =>
             a.Title.Contains(search, StringComparison.OrdinalIgnoreCase) ||
             (a.Overview?.Contains(search, StringComparison.OrdinalIgnoreCase) ??
             false)));

@@ -1,4 +1,5 @@
 ﻿using SQLite;
+﻿using CiNemaPlus.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace CiNemaPlus.Models
         public List<int> Genre_ids { get; set; } = new List<int>();
 
         [PrimaryKey]
+        public string GenreDisplay => null;
+
         public int Id { get; set; }
 
         public string Title { get; set; } = string.Empty;
@@ -79,7 +82,7 @@ namespace CiNemaPlus.Models
 
         public string FullYoutubeEmbedLink => YoutubeEmbedLink();
 
-        public string YoutubeEmbedLink()
+        private string YoutubeEmbedLink()
         {
             var video = Results?.FirstOrDefault(r => r.Name == "Official Trailer")
                  ?? Results?.FirstOrDefault(r => r.Type == "Trailer")
