@@ -32,6 +32,12 @@
             TextColor="Black"
             HorizontalTextAlignment="Start" Padding="8" />
 
+        <!-- Indicateur de chargement -->
+        <ActivityIndicator Grid.Row="2" IsRunning="{Binding EstEnChargement}"
+            IsVisible="{Binding EstEnChargement}"
+            Color="#1E88E5"
+            HorizontalOptions="Center" />
+
         <CollectionView x:Name="MoviesCollection"
                             ItemsSource="{Binding SearchedMovies}"
                             Grid.Row="2"
