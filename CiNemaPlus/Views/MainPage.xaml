@@ -13,7 +13,7 @@
         <!-- Bar de recherche-->
         <Border Grid.Row="0" BackgroundColor="#F1F3F4" StrokeShape="RoundRectangle 15" Padding="5">
             <SearchBar x:Name="SearchBar"
-                Placeholder="Rechercher dans les articles..." 
+                Placeholder="Search for movies" 
                    BackgroundColor="#F1F3F4"
                    TextColor="Black"
                    TextChanged="OnSearchTextChanged">

@@ -26,6 +26,7 @@ namespace CiNemaPlus
             builder.Services.AddTransient<MovieViewModel>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<DetailPage>();
+            builder.Services.AddTransient<PopularPage>();
             builder.Services.AddHttpClient<MoviesApiService>(c => 
             {
                 c.BaseAddress = new Uri(Constants.BaseUrl);

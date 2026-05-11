@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using CiNemaPlus.Models;
 using CiNemaPlus.Services;
+using CiNemaPlus.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -46,6 +47,14 @@ namespace CiNemaPlus
             this._moviesApiService = moviesApiService;
             this.database = database;
             IsEmptySearch = true;
+        }
+
+        partial void OnSelectedMovieChanged(Movie movie)
+        {
+            if (movie == null) return;
+
+            Shell.Current.GoToAsync("detail", new Dictionary<string, object> { { "Movie", movie } });
+            SelectedMovie = null;
         }
 
         [RelayCommand]
@@ -92,24 +101,10 @@ namespace CiNemaPlus
 
         public async Task RechercheEnLigne(string search)
         {
-            await ChargerRecherche(search);
-            if (string.IsNullOrWhiteSpace(search))
-            {
-                SearchedMovies = new(_allMovies);
-                IsEmptySearch = true;
-                return;
-            }
-            IsEmptySearch = false;
-            SearchedMovies = new(_allMovies.Where(a =>
-            a.Title.Contains(search, StringComparison.OrdinalIgnoreCase)));
-        }
-
-        public async Task FiltrerLocalement(string search)
-        {
             await ChargerDonnees();
             if (string.IsNullOrWhiteSpace(search))
-            {
-                Movies = new(_allMovies);
+            {    
+                SearchedMovies = new();
                 return;
             }
             SearchedMovies = new(_allMovies.Where(a =>

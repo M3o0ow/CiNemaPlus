@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CiNemaPlus.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ namespace CiNemaPlus.Models
         public string Backdrop_path { get; set; } = string.Empty;
 
         public List<int> Genre_ids { get; set; } = new List<int>();
+
+        public string GenreDisplay => null;
 
         public int Id { get; set; }
 
@@ -76,7 +79,7 @@ namespace CiNemaPlus.Models
 
         public string FullYoutubeEmbedLink => YoutubeEmbedLink();
 
-        public string YoutubeEmbedLink()
+        private string YoutubeEmbedLink()
         {
             var video = Results?.FirstOrDefault(r => r.Name == "Official Trailer")
                  ?? Results?.FirstOrDefault(r => r.Type == "Trailer")
