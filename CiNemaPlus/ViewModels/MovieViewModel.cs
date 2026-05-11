@@ -28,6 +28,9 @@ namespace CiNemaPlus
         [ObservableProperty]
         private bool _estFallback;
 
+        [ObservableProperty]
+        private bool isEmptySearch;
+
         private List<Movie> _allMovies = new();
 
         [ObservableProperty]
@@ -43,6 +46,7 @@ namespace CiNemaPlus
         {
             this._moviesApiService = moviesApiService;
             this.database = database;
+            IsEmptySearch = true;
         }
 
         partial void OnSelectedMovieChanged(Movie movie)
@@ -54,13 +58,23 @@ namespace CiNemaPlus
         }
 
         [RelayCommand]
-        public async Task ChargerDonnees(string category = "popular")
+        public async Task ChargerDonnees()
         {
-            category = category.ToLower();
             EstEnChargement = true;
             var (movies, fallback) = await _moviesApiService.GetData();
             _allMovies = movies;
             Movies = new ObservableCollection<Movie>(movies);
+            EstFallback = fallback;
+            EstEnChargement = false;
+        }
+
+        [RelayCommand]
+        public async Task ChargerRecherche(string search)
+        {
+            EstEnChargement = true;
+            var (movies, fallback) = await _moviesApiService.GetSearchedMovie(search);
+            _allMovies = movies;
+            SearchedMovies = new ObservableCollection<Movie>(movies);
             EstFallback = fallback;
             EstEnChargement = false;
         }

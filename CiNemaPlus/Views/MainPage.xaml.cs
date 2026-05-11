@@ -21,7 +21,7 @@ namespace CiNemaPlus
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await _vm.ChargerDonnees();
+            await _vm.ChargerRecherche("");
         }
 
         //Navigation vers les détails du film sélectioner
